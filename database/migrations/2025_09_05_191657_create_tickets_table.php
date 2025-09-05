@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
+            $table->string('subject');
+            $table->text('body');
+            $table->enum('status', ['open', 'pending', 'closed'])->default('open');
             $table->timestamps();
         });
     }

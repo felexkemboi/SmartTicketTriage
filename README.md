@@ -69,4 +69,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 git clone the repo
 copy .env.example to .env file
-have mysql setup in your system, create a db and use [db name, user, password ] in your .env
+have mysql setup in your system, create a db and use [db name, user, password ] in your .env DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
