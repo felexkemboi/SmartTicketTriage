@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 
 Route::get('/tickets', [TicketController::class, 'index']);
 
+Route::post('/tickets', [TicketController::class, 'store']);
+
 Route::get('/tickets/{id}', [TicketController::class, 'show']);
 
 Route::get('/dashboard', [DashboardController::class, 'index']);

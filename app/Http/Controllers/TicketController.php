@@ -18,4 +18,24 @@ class TicketController extends Controller
        
        return response()->json($ticket);
    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'subject'    => 'required|string|max:255',
+            'body'       => 'required|string',
+            'status'     => 'required|in:open,pending,closed',
+            'confidence' => 'nullable|numeric|min:0|max:1',
+            'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment',
+        ]);
+
+        $ticket = Ticket::create($validated);
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Ticket created successfully',
+            'ticket'  => $ticket,
+        ], 201);
+    }
+
 }
