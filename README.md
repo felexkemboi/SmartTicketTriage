@@ -65,19 +65,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-clone
-composer install
-npm install
-.env
-php artisan migrate --seed
-npm run dev
-npm run build
-
-
-git clone the repo
-copy .env.example to .env file
-have mysql setup in your system, create a db and use [db name, user, password ] in your .env DB_DATABASE=
-DB_USERNAME=
-DB_PASSWORD=
+- clone
+- composer install
+- npm install
+- Have MYSQL installed, create a database
+- Copy .env.example to .env
+- Update the db name, user and password of your Database configurations in .env file
+- php artisan migrate --seed
+- npm run dev
+- npm run build
+- Head over to localhost
 
 
