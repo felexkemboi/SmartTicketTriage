@@ -19,6 +19,8 @@ class TicketFactory extends Factory
         return [
             'subject' => $this->faker->sentence,
             'body' => $this->faker->paragraph,
+            'confidence' => $this->faker->randomFloat(2, 0, 1),            
+            'category' => $this->faker->randomElement(['technical', 'payments', 'inquiries', 'feedback', 'appointment']),
             'status' => $this->faker->randomElement(['open', 'pending', 'closed']),
         ];
     }

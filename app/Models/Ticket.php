@@ -15,6 +15,8 @@ class Ticket extends Model
         'subject',
         'body',
         'status',
+        'confidence',
+        'category'
     ];
 
     protected static function boot()
