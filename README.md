@@ -7,6 +7,7 @@
 - Copy file `.env.example` to `.env`
 - Update the db name, user and password of your Database configurations in your .env file
 - Run `php artisan migrate --seed` to migrate and seed your Database with mock data
+- Run `php artisan serve` to fire up the Laravel server
 - Run `npm run dev` to have localhost up
 - Run `npm run build` to build your frontend
 - Head over to localhost
