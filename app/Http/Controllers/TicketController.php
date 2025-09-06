@@ -38,4 +38,22 @@ class TicketController extends Controller
         ], 201);
     }
 
+    public function update(Request $request, string $id)
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        $validated = $request->validate([
+            'status'   => 'sometimes|in:open,pending,closed',
+            'category' => 'sometimes|in:Technical,Payments,Inquiries,Feedback,Appointment',
+            'body'     => 'nullable|string',
+        ]);
+
+        $ticket->update($validated);
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Ticket updated successfully',
+            'ticket'  => $ticket,
+        ], 200);
+    }
 }

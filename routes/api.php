@@ -10,4 +10,6 @@ Route::post('/tickets', [TicketController::class, 'store']);
 
 Route::get('/tickets/{id}', [TicketController::class, 'show']);
 
+Route::patch('/tickets/{id}', [TicketController::class, 'update']);
+
 Route::get('/dashboard', [DashboardController::class, 'index']);

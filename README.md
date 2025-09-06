@@ -10,3 +10,7 @@
 - Run `npm run dev` to have localhost up
 - Run `npm run build` to build your frontend
 - Head over to localhost
+
+
+In some cases it is reffered to Note, some reffered to Body
+Added some columns not mentioned in the description
