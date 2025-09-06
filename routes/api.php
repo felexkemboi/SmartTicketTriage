@@ -12,4 +12,6 @@ Route::get('/tickets/{id}', [TicketController::class, 'show']);
 
 Route::patch('/tickets/{id}', [TicketController::class, 'update']);
 
+Route::post('/tickets/{id}/classify', [TicketController::class, 'classify']);
+
 Route::get('/dashboard', [DashboardController::class, 'index']);

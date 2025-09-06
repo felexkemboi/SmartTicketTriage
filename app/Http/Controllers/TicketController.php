@@ -56,4 +56,15 @@ class TicketController extends Controller
             'ticket'  => $ticket,
         ], 200);
     }
+
+    public function classify(string $id) {
+       
+        $ticket = Ticket::findOrFail($id); 
+       
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Ticket dispatched successfully',
+            'ticket'  => $ticket,
+        ], 200);
+   }
 }
