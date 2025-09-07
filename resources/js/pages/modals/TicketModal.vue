@@ -42,9 +42,9 @@
 					<label>Status</label>
 					<select v-model="form.status" :class="{ 'input-error': errors.status }">
 						<option disabled value="">Select status</option>
-						<option>Open</option>
-						<option>Pending</option>
-						<option>Closed</option>
+						<option value="open">Open</option>
+						<option value="pending">Pending</option>
+						<option value="closed">Closed</option>
 					</select>
 					<p v-if="errors.status" class="error">{{ errors.status }}</p>
 				</div>
@@ -161,7 +161,8 @@ export default {
                 } else {
                     res = await axios.patch(`http://localhost:8000/api/tickets/${this.ticket.id}`, this.form);
                 }
-                this.$emit("saved", res.data); 
+                this.$emit("save", res.data); 
+        
                 this.$emit("close");
             } catch (error) {
                 console.error("Failed to save ticket:", error);
