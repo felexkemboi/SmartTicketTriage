@@ -64,8 +64,8 @@ export default {
                 this.$emit("close");
                 
             } catch (error) {
-                console.error("Failed to save ticket:", error);
-                alert("Error saving ticket. Please try again.");
+                console.error("Failed to classify the ticket:", error);
+                alert("Failed to classify the ticket. Please try again.");
             }
         },
     },

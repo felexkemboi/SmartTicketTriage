@@ -14,7 +14,7 @@ class TicketController extends Controller
             
         return response()->json([
             'status'  => 'success',
-            'message' => 'Ticket dispatched successfully',
+            'message' => 'Tickets successfully loaded',
             'tickets'  => $tickets,
         ], 200);
     }
@@ -33,7 +33,7 @@ class TicketController extends Controller
             'body'       => 'required|string',
             'status'     => 'required|in:open,pending,closed',
             'confidence' => 'nullable|numeric|min:0|max:1',
-            'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment,Billing',
+            'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment',
         ]);
 
         $ticket = Ticket::create($validated);
