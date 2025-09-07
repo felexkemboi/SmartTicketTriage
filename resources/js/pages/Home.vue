@@ -51,7 +51,32 @@
 									3 18.75V8.25A2.25 2.25 0 0 1 
 									5.25 6H10" />
 							</svg>
-						</div>					
+						</div>
+            <div class="edit-icon">
+                <svg 
+                  @click.stop="openDetails(ticket, index)" 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="1.5" 
+                  stroke="currentColor" 
+                  class="w-6 h-6 cursor-pointer hover:text-blue-500 transition">
+                <path 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  d="M2.036 12.322a1.012 1.012 0 010-.644C3.423 7.51 
+                    7.36 4.5 12 4.5c4.638 0 8.573 3.007 
+                    9.963 7.178.07.207.07.431 0 
+                    .638C20.577 16.49 16.64 19.5 
+                    12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                  />
+                <path 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" 
+                />
+                 </svg>
+              </div>			
 					</div>
 				</div>
 				<div class="card-body">
@@ -86,16 +111,23 @@
 			@save="handleSave" 
 			@close="modalVisible = false" 
 		/>
+
+    <TicketDetailsModal 
+			:visible="viewModal" 
+			:ticket="selectedTicket" 
+			@close="viewModal = false" 
+		/>
 	</div>
 </template>
 
 <script>
 import axios from "axios";
 import TicketModal from "./modals/TicketModal.vue";
+import TicketDetailsModal from "./modals/TicketDetailsModal.vue";
 
 export default {
     name: "TicketListPage",
-    components: { TicketModal },
+    components: { TicketModal,TicketDetailsModal },
     data() {
         return {
             tickets: [],
@@ -107,6 +139,7 @@ export default {
             modalVisible: false,
             modalMode: "create",
             selectedTicket: null,
+            viewModal: false,
             editIndex: null,
         };
     },
@@ -157,6 +190,7 @@ export default {
             this.selectedTicket = null;
             this.modalVisible = true;
         },
+
         openEdit(ticket, index) {
             this.modalMode = "edit";
             this.selectedTicket = { ...ticket };
@@ -164,7 +198,15 @@ export default {
             this.modalVisible = true;
             this.openMenuIndex = null;
         },
+
+        openDetails(ticket, index) {
+            this.selectedTicket = { ...ticket };
+            this.viewModal = true;
+            this.openMenuIndex = null;
+        },
+
         async handleSave(newTicket) {
+          console.log('this is it...');
           await this.fetchTickets()
         },
         goToPage(page) {
