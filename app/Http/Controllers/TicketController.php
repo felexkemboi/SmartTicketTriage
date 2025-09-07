@@ -10,8 +10,6 @@ class TicketController extends Controller
     public function index() {
     
         $tickets = Ticket::orderBy('created_at', 'desc')->get();
-
-        \Log::Debug($tickets);
         
         return response()->json([
             'status'  => 'success',
