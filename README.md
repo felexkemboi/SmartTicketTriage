@@ -15,3 +15,4 @@
 
 In some cases it is reffered to Note, some reffered to Body
 Added some columns not mentioned in the description
+Rate limiter is not added since it has no real openAI
