@@ -56,24 +56,17 @@ export default {
     },
     methods: {
         async handleSubmit() {            
-            // if (!this.validate()) return;
-            // this.loading = true;
-            // try {
-            //     let res;
-            //     if (this.mode === "create") {
-            //         res = await axios.post("http://localhost:8000/api/tickets", this.form);
-            //     } else {
-            //         res = await axios.patch(`http://localhost:8000/api/tickets/${this.ticket.id}`, this.form);
-            //     }
-            //     this.$emit("save", res.data); 
-        
-            //     this.$emit("close");
-            // } catch (error) {
-            //     console.error("Failed to save ticket:", error);
-            //     alert("Error saving ticket. Please try again.");
-            // } finally {
-            //     this.loading = false;
-            // }
+
+            try {
+                
+                const res = await axios.post(`http://localhost:8000/api/tickets/${this.ticket.id}/classify`);
+    
+                this.$emit("close");
+                
+            } catch (error) {
+                console.error("Failed to save ticket:", error);
+                alert("Error saving ticket. Please try again.");
+            }
         },
     },
 };
