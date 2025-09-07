@@ -10,11 +10,15 @@
 - Run `php artisan serve` to fire up the Laravel server
 - Run `npm run dev` to have localhost up
 - Run `npm run build` to build your frontend
-- Head over to `http://localhost:5173`
+- Head over to `http://localhost:8000`
 
 
-In some cases it is reffered to Note, some reffered to Body
-Added some columns not mentioned in the description
-Rate limiter is not added since it has no real openAI
+## Notes
+- In some cases it is reffered to Note, some reffered to Body
+- Added some columns not mentioned in the description
+- Rate limiter is not added since it has no real openAI
 
-You can classify the tickets in 2 ways, bulk classify using the command php artisan tickets:bulk-classify or classify individual docs by clicking on the classify button on details modal
+## How to classify
+You can classify the tickets in 2 ways,
+  - Bulk classify using the command `php artisan tickets:bulk-classify`
+  - Classify individual ticket by clicking on the `Classify` button on details modal
