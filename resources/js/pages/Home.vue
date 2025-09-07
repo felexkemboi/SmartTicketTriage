@@ -145,10 +145,7 @@ export default {
     methods: {
         async fetchTickets() {
             try {
-        
                 const res = await axios.get("http://localhost:8000/api/tickets");
-
-                console.log(res.data.tickets);
                 this.tickets = res.data.tickets; 
             } catch (err) {
                 console.error("Failed to load tickets", err);
@@ -167,12 +164,8 @@ export default {
             this.modalVisible = true;
             this.openMenuIndex = null;
         },
-        handleSave(newTicket) {
-            if (this.modalMode === "create") {
-                this.tickets.push(newTicket);
-            } else if (this.modalMode === "edit" && this.editIndex !== null) {
-                this.tickets.splice(this.editIndex, 1, newTicket);
-            }
+        async handleSave(newTicket) {
+          await this.fetchTickets()
         },
         goToPage(page) {
             if (page >= 1 && page <= this.totalPages) {

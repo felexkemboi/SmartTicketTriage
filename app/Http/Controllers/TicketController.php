@@ -30,7 +30,7 @@ class TicketController extends Controller
         $validated = $request->validate([
             'subject'    => 'required|string|max:255',
             'body'       => 'required|string',
-            'status'     => 'required|in:Open,Pending,Closed',
+            'status'     => 'required|in:open,pending,closed',
             'confidence' => 'nullable|numeric|min:0|max:1',
             'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment',
         ]);
@@ -49,14 +49,13 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($id);
 
         $validated = $request->validate([
-            'status'     => 'required|in:Open,Pending,Closed',
+            'status'     => 'required|in:open,pending,closed',
             'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment',
             'body'     => 'nullable|string',
         ]);
 
         $ticket->update($validated);
 
-        \Log::Debug($ticket);
         return response()->json([
             'status'  => 'success',
             'message' => 'Ticket updated successfully',
