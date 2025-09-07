@@ -2,9 +2,6 @@
 	<div :class="['dashboard', darkMode ? 'dark' : 'light']">
 		<header class="dashboard-header">
 			<h1>📊 Dashboard</h1>
-			<!-- <button @click="toggleTheme" class="theme-toggle">
-				{{ darkMode ? "🌙 Dark Mode" : "☀️ Light Mode" }}
-			</button> -->
 		</header>
 		<section class="cards">
 			<div v-for="(count, status) in ticketStatusCounts" :key="status" class="card">

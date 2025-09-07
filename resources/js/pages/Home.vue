@@ -5,7 +5,7 @@
 			<p class="description">Manage and classify support tickets easily.</p>
 			<div class="actions-group">
 				<button class="add-btn" @click="openCreate">+ Add Ticket</button>
-				<button class="export-btn" @click="exportCSV">⬇ Export CSV</button>
+				<button class="export-btn" @click="exportCSV">Export CSV</button>
 			</div>
 		</div>
 
@@ -14,18 +14,18 @@
 
 			<select v-model="selectedStatus">
 				<option value="">All Status</option>
-				<option value="Open">Open</option>
-				<option value="In Progress">In Progress</option>
-				<option value="Closed">Closed</option>
+				<option value="open">Open</option>
+				<option value="pending">In Progress</option>
+				<option value="closed">Closed</option>
 			</select>
 
 			<select v-model="selectedCategory">
 				<option value="">All Categories</option>
-				<option value="Billing">Billing</option>
+				<option value="Feedback">Feedback</option>
+				<option value="Inquiries">Inquiries</option>
+				<option value="Appointment">Appointment</option>
 				<option value="Technical">Technical</option>
-				<option value="General">General</option>
-				<option value="Support">Support</option>
-				<option value="Account">Account</option>
+				<option value="Billing">Billing</option>
 			</select>
 		</div>
 
