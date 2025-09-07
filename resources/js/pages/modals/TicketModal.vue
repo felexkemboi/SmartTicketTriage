@@ -5,15 +5,19 @@
 				{{ mode === 'create' ? 'Create Ticket' : 'Edit Ticket' }}
 			</h2>
 			<form @submit.prevent="handleSubmit" class="form">
+                <div class="form-group">
+					<label>Subject</label>
+					<input v-model="form.subject" rows="2" placeholder="Add subject...."></input>
+				</div>
 				<div class="form-group">
 					<label>Category</label>
 					<select v-model="form.category" :class="{ 'input-error': errors.category }">
 						<option disabled value="">Select category</option>
-						<option>Billing</option>
-						<option>Technical</option>
-						<option>General</option>
-						<option>Account</option>
-						<option>Support</option>
+				        <option value="Feedback">Feedback</option>
+				        <option value="Inquiries">Inquiries</option>
+				        <option value="Appointment">Appointment</option>
+				        <option value="Technical">Technical</option>
+				        <option value="Billing">Billing</option>
 					</select>
 					<p v-if="errors.category" class="error">{{ errors.category }}</p>
 				</div>
@@ -32,14 +36,14 @@
 				</div>
 				<div class="form-group">
 					<label>Note</label>
-					<textarea v-model="form.note" rows="3" placeholder="Add note here..."></textarea>
+					<textarea v-model="form.body" rows="3" placeholder="Add note here..."></textarea>
 				</div>
 				<div class="form-group">
 					<label>Status</label>
 					<select v-model="form.status" :class="{ 'input-error': errors.status }">
 						<option disabled value="">Select status</option>
 						<option>Open</option>
-						<option>In Progress</option>
+						<option>Pending</option>
 						<option>Closed</option>
 					</select>
 					<p v-if="errors.status" class="error">{{ errors.status }}</p>
@@ -78,7 +82,7 @@ export default {
             form: {
                 category: "",
                 confidence: null,
-                note: "",
+                body: "",
                 status: "",
             },
             errors: {
@@ -96,8 +100,9 @@ export default {
                     this.resetForm();
                 } else if (this.ticket) {
                     this.form.category = this.ticket.category || "";
+                    this.form.subject = this.ticket.subject || "";
                     this.form.confidence = this.ticket.confidence ?? null;
-                    this.form.note = this.ticket.note || "";
+                    this.form.body = this.ticket.body || "";
                     this.form.status = this.ticket.status || "";
                 }
                 this.errors = { category: "", confidence: "", status: "" };
@@ -109,7 +114,8 @@ export default {
             this.form = {
                 category: "",
                 confidence: null,
-                note: "",
+                subject: "",
+                body: "",
                 status: "",
             };
             this.errors = { category: "", confidence: "", status: "" };
@@ -145,7 +151,7 @@ export default {
 
             return valid;
         },
-        async handleSubmit() {
+        async handleSubmit() {            
             if (!this.validate()) return;
             this.loading = true;
             try {
@@ -153,7 +159,7 @@ export default {
                 if (this.mode === "create") {
                     res = await axios.post("http://localhost:8000/api/tickets", this.form);
                 } else {
-                    res = await axios.put(`http://localhost:8000/api/tickets/${this.ticket.id}`, this.form);
+                    res = await axios.patch(`http://localhost:8000/api/tickets/${this.ticket.id}`, this.form);
                 }
                 this.$emit("saved", res.data); 
                 this.$emit("close");

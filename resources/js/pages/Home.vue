@@ -15,7 +15,7 @@
 			<select v-model="selectedStatus">
 				<option value="">All Status</option>
 				<option value="open">Open</option>
-				<option value="pending">In Progress</option>
+				<option value="pending">Pending</option>
 				<option value="closed">Closed</option>
 			</select>
 
@@ -145,9 +145,11 @@ export default {
     methods: {
         async fetchTickets() {
             try {
+        
                 const res = await axios.get("http://localhost:8000/api/tickets");
-                console.log(res.data)
-                this.tickets = res.data.data || res.data; 
+
+                console.log(res.data.tickets);
+                this.tickets = res.data.tickets; 
             } catch (err) {
                 console.error("Failed to load tickets", err);
             }

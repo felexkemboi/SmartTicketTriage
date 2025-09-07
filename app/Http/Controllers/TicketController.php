@@ -9,7 +9,15 @@ class TicketController extends Controller
 {
     public function index() {
     
-        return response()->json(Ticket::all()); // add the statuses 
+        $tickets = Ticket::orderBy('created_at', 'desc')->get();
+
+        \Log::Debug($tickets);
+        
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Ticket dispatched successfully',
+            'tickets'  => $tickets,
+        ], 200);
     }
 
     public function show(string $id) {
@@ -24,7 +32,7 @@ class TicketController extends Controller
         $validated = $request->validate([
             'subject'    => 'required|string|max:255',
             'body'       => 'required|string',
-            'status'     => 'required|in:open,pending,closed',
+            'status'     => 'required|in:Open,Pending,Closed',
             'confidence' => 'nullable|numeric|min:0|max:1',
             'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment',
         ]);
@@ -43,13 +51,14 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($id);
 
         $validated = $request->validate([
-            'status'   => 'sometimes|in:open,pending,closed',
-            'category' => 'sometimes|in:Technical,Payments,Inquiries,Feedback,Appointment',
+            'status'     => 'required|in:Open,Pending,Closed',
+            'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment',
             'body'     => 'nullable|string',
         ]);
 
         $ticket->update($validated);
 
+        \Log::Debug($ticket);
         return response()->json([
             'status'  => 'success',
             'message' => 'Ticket updated successfully',
