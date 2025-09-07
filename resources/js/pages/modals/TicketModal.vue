@@ -17,7 +17,6 @@
 				        <option value="Inquiries">Inquiries</option>
 				        <option value="Appointment">Appointment</option>
 				        <option value="Technical">Technical</option>
-				        <option value="Billing">Billing</option>
 					</select>
 					<p v-if="errors.category" class="error">{{ errors.category }}</p>
 				</div>
@@ -159,6 +158,8 @@ export default {
                 if (this.mode === "create") {
                     res = await axios.post("http://localhost:8000/api/tickets", this.form);
                 } else {
+
+                    console.log(this.form)
                     res = await axios.patch(`http://localhost:8000/api/tickets/${this.ticket.id}`, this.form);
                 }
                 this.$emit("save", res.data); 

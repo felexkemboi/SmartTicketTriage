@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Services\TicketClassifier;
 
 class TicketController extends Controller
 {
     public function index() {
     
-        $tickets = Ticket::orderBy('created_at', 'desc')->get();
-        
+        $tickets = Ticket::orderBy('updated_at', 'desc')->get();
+            
         return response()->json([
             'status'  => 'success',
             'message' => 'Ticket dispatched successfully',
@@ -32,7 +33,7 @@ class TicketController extends Controller
             'body'       => 'required|string',
             'status'     => 'required|in:open,pending,closed',
             'confidence' => 'nullable|numeric|min:0|max:1',
-            'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment',
+            'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment,Billing',
         ]);
 
         $ticket = Ticket::create($validated);
@@ -50,7 +51,7 @@ class TicketController extends Controller
 
         $validated = $request->validate([
             'status'     => 'required|in:open,pending,closed',
-            'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment',
+            'category'   => 'required|in:Technical,Payments,Inquiries,Feedback,Appointment,Billing',
             'body'     => 'nullable|string',
         ]);
 
@@ -63,14 +64,15 @@ class TicketController extends Controller
         ], 200);
     }
 
-    public function classify(string $id) {
-       
+    public function classify(string $id, TicketClassifier $classifier) {
+              
         $ticket = Ticket::findOrFail($id); 
+
+        $ticket = $classifier->classifyAndSave($ticket);
        
         return response()->json([
-            'status'  => 'success',
-            'message' => 'Ticket dispatched successfully',
-            'ticket'  => $ticket,
+            'status' => 'success',
+            'ticket' => $ticket,
         ], 200);
    }
 }

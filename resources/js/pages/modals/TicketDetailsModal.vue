@@ -19,7 +19,7 @@
 				</div>
 				<div class="form-group">
 					<label>Note:</label>
-					{{ ticket.subject }}
+					{{ ticket.body }}
 				</div>
 				<div class="form-group">
 					<label>Status:</label>

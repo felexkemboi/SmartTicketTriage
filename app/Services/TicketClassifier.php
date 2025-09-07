@@ -10,6 +10,7 @@ class TicketClassifier
 {
     public function classify(Ticket $ticket): array
     {
+
         // If disabled, return dummy classification
         if (! config('openai.classify_enabled', env('OPENAI_CLASSIFY_ENABLED', false))) {
             return [
@@ -19,41 +20,63 @@ class TicketClassifier
             ];
         }
 
-        try {
-            $prompt = <<<EOT 
-                You are a ticket classification system.
-                Return ONLY valid JSON with keys: category, body and confidence (0–1).
-                Categories: Technical, Payments, Inquiries, Feedback, Appointment.
-                Ticket:
-                Subject: {$ticket->subject}
-                Body: {$ticket->body}
-            EOT;
+        // try {
 
-            $response = OpenAI::chat()->create([
-                'model' => 'gpt-4o-mini',
-                'messages' => [
-                    ['role' => 'system', 'content' => $prompt],
-                ],
-                'temperature' => 0.2,
-            ]);
+        //     // Might need to prompt something here to be used below
 
-            $raw = $response->choices[0]->message->content ?? '{}';
+        //     $response = OpenAI::chat()->create([
+        //         'model' => 'gpt-4o-mini',
+        //         'messages' => [
+        //             ['role' => 'system', 'content' => $prompt],
+        //         ],
+        //         'temperature' => 0.2,
+        //     ]);
 
-            $parsed = json_decode($raw, true);
+        //     $raw = $response->choices[0]->message->content ?? '{}';
 
-            return [
-                'category'     => $parsed['category'] ?? 'Inquiries',
-                'body'  => $parsed['explanation'] ?? 'No explanation',
-                'confidence'   => (float) ($parsed['confidence'] ?? 0.5),
-            ];
-        } catch (\Throwable $e) {
-            Log::error("Ticket classification failed", ['error' => $e->getMessage()]);
+        //     $parsed = json_decode($raw, true);
 
-            return [
-                'category'     => 'Inquiries',
-                'bod'  => 'Default body when there is no other body',
-                'confidence'   => 0.1,
-            ];
+        //     return [
+        //         'category'     => $parsed['category'] ?? 'Inquiries',
+        //         'body'  => $parsed['explanation'] ?? 'No explanation',
+        //         'confidence'   => (float) ($parsed['confidence'] ?? 0.5),
+        //     ];
+        // } catch (\Throwable $e) {
+        //     Log::error("Ticket classification failed", ['error' => $e->getMessage()]);
+
+        //     return [
+        //         'category'     => 'Inquiries',
+        //         'bod'  => 'Default body when there is no other body',
+        //         'confidence'   => 0.1,
+        //     ];
+        // }
+    }
+
+
+    /**
+     * Classify and persist to DB.
+     * but still update body (explanation) & confidence.
+     */
+    public function classifyAndSave(Ticket $ticket): Ticket
+    {
+        $result = $this->classify($ticket);
+
+        \Log::Debug($ticket->subject);
+
+        $manual = $ticket->category === $result['category'];
+        
+        if ($manual) {
+            $ticket->confidence = $result['confidence'];
+            $ticket->body = $result['body'];
+        } else {
+            $ticket->category = $result['category'];
+            $ticket->confidence = $result['confidence'];
+            $ticket->body = $result['body'];
         }
+
+        $ticket->save();
+
+
+        return $ticket;
     }
 }

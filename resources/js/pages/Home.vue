@@ -179,6 +179,8 @@ export default {
         async fetchTickets() {
             try {
                 const res = await axios.get("http://localhost:8000/api/tickets");
+
+                console.log(res.data)
                 this.tickets = res.data.tickets; 
             } catch (err) {
                 console.error("Failed to load tickets", err);

@@ -5,27 +5,24 @@ namespace App\Console\Commands;
 use App\Jobs\ClassifyTicket;
 use App\Models\Ticket;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\RateLimiter;
 
 class BulkClassifyTickets extends Command
 {
-    protected $signature = 'tickets:bulk-classify {--limit=10}';
+    protected $signature = 'tickets:bulk-classify';
     protected $description = 'Classify unclassified tickets in bulk';
 
     public function handle(): void
     {
-        $limit = (int) $this->option('limit');
+        $tickets = Ticket::orderBy('created_at')->get();
 
-        $tickets = Ticket::whereNull('body')
-            ->orWhereNull('confidence')
-            ->limit($limit)
-            ->get();
+        foreach ($tickets as $ticket) {
 
-            \Log::Debug($tickets);
+            $key = 'openai-dispatch';
 
-        // foreach ($tickets as $ticket) {
-        //     ClassifyTicket::dispatch($ticket);
-        // }
-
-        // $this->info("Dispatched classification for {$tickets->count()} tickets.");
+            ClassifyTicket::dispatch($ticket);
+            
+            $this->info("Queued ticket {$ticket->id}");
+        }
     }
 }
