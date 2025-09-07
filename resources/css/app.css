@@ -249,6 +249,7 @@ body {
     cursor: pointer;
     padding: 8px 14px;
     border-radius: 6px;
+    text-decoration: none;
     transition: background 0.2s;
 }
 

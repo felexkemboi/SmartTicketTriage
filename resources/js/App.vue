@@ -1,14 +1,6 @@
 <template>
   <div>
-    <!-- <div class="topbar">
-        <router-link 
-          to="/dashboard" 
-          class="tab" 
-          :class="{ active: $route.path === '/dashboard' }"
-        >
-        Dashboard
-      </router-link>
-
+    <div class="topbar">
       <router-link 
         to="/" 
         class="tab" 
@@ -16,8 +8,15 @@
       >
         Tickets
       </router-link>
-    </div> -->
 
+      <router-link 
+          to="/dashboard" 
+          class="tab" 
+          :class="{ active: $route.path === '/dashboard' }"
+        >
+        Dashboard
+      </router-link>
+    </div>
 
     <router-view />
   </div>
