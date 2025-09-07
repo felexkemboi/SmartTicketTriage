@@ -25,12 +25,11 @@ class ClassifyTicket implements ShouldQueue
     {
         $results = $classifier->classify($this->ticket);
 
-        // Keep manual category if already set by user
         if (! $this->ticket->wasChanged('category') && empty($this->ticket->category)) {
             $this->ticket->category = $results['category'];
         }
 
-        $this->ticket->explanation = $results['explanation'];
+        $this->ticket->explanation = $results['body'];
         $this->ticket->confidence  = $results['confidence'];
         $this->ticket->save();
     }

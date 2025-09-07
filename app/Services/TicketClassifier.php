@@ -14,15 +14,15 @@ class TicketClassifier
         if (! config('openai.classify_enabled', env('OPENAI_CLASSIFY_ENABLED', false))) {
             return [
                 'category'     => fake()->randomElement(['Technical', 'Payments', 'Inquiries', 'Feedback', 'Appointment']),
-                'explanation'  => 'Dummy explanation (OpenAI disabled)',
+                'body'  => 'This is just a test body because the openAI is disabled',
                 'confidence'   => fake()->randomFloat(2, 0, 1),
             ];
         }
 
         try {
             $prompt = <<<EOT 
-            You are a ticket classification system.
-                Return ONLY valid JSON with keys: category, explanation, confidence (0–1).
+                You are a ticket classification system.
+                Return ONLY valid JSON with keys: category, body and confidence (0–1).
                 Categories: Technical, Payments, Inquiries, Feedback, Appointment.
                 Ticket:
                 Subject: {$ticket->subject}
@@ -43,7 +43,7 @@ class TicketClassifier
 
             return [
                 'category'     => $parsed['category'] ?? 'Inquiries',
-                'explanation'  => $parsed['explanation'] ?? 'No explanation',
+                'body'  => $parsed['explanation'] ?? 'No explanation',
                 'confidence'   => (float) ($parsed['confidence'] ?? 0.5),
             ];
         } catch (\Throwable $e) {
@@ -51,7 +51,7 @@ class TicketClassifier
 
             return [
                 'category'     => 'Inquiries',
-                'explanation'  => 'Fallback classification after error',
+                'bod'  => 'Default body when there is no other body',
                 'confidence'   => 0.1,
             ];
         }
